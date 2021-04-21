@@ -1,4 +1,4 @@
-import provider from '../src/providers/gcs'
+import provider from '@nimbella/storage/providers/gcs'
 
 const project_id = 'some_project_id'
 const private_key = 'THISISMYPRIVATEKEY'

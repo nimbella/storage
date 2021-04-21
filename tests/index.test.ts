@@ -1,4 +1,4 @@
-import { getStorageProvider } from '../src/index'
+import { getStorageProvider } from '@nimbella/storage/index'
 
 describe('test getStorageProvider method', () => {
   test('should return AWS S3 storage provider from id', () => {

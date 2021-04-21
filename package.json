@@ -15,6 +15,7 @@
   },
   "scripts": {
     "test": "jest",
+    "test:built": "TEST_BUILT_VERSION=true jest tests/index",
     "lint": "eslint 'src/**/*.ts'",
     "build": "tsc && node esbuild.config.js",
     "prepack": "npm run build"

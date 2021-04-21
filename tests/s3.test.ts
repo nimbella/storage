@@ -1,5 +1,5 @@
-import provider, { NimS3Client } from '../src/providers/s3'
-import { StorageKey } from '../src/providers/interface'
+import provider, { NimS3Client } from '@nimbella/storage/providers/s3'
+import { StorageKey } from '@nimbella/storage/providers/interface'
 
 describe('test prepareCredentials method', () => {
   test('should return credentials instance from input parameters', () => {
