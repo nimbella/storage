@@ -172,6 +172,10 @@ class NimS3Client implements StorageClient {
     return this.url
   }
 
+  getBucketName(): string {
+    return this.bucketName
+  }
+
   setWebsite(website: WebsiteOptions): Promise<any> {
     debug('setWebsite was called for bucket %s', this.bucketName)
     const { notFoundPage: Key, mainPageSuffix: Suffix } = website
@@ -279,7 +283,9 @@ const provider: StorageProvider = {
     }
 
     return new NimS3Client(s3, bucketName)
-  }
+  },
+  identifier: '@nimbella/storage-s3'
 }
 
 export default provider
+export { NimS3Client }

@@ -130,7 +130,8 @@ const provider: StorageProvider = {
     }
 
     return new GCSClient(bucket)
-  }
+  },
+  identifier: '@nimbella/storage-gcs'
 }
 
 export default provider

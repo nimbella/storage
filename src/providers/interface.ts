@@ -124,4 +124,7 @@ export interface StorageProvider {
     // Except for GCS, which is grandfathered as the default, the result must include a 'provider' field denoting
     // a valid npm-installable package
     prepareCredentials: (original: Record<string, any>) => StorageKey
+    // Unique identifier for this storage provider, e.g. @nimbella/storage-provider.
+    // Used by factory function to perform dynamic lookups for provider impl at runtime.
+    identifier: string
 }

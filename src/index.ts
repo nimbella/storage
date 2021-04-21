@@ -17,8 +17,8 @@ import s3StorageProvider from './providers/s3'
 import gcsStorageProvider from './providers/gcs'
 
 const providers: Map<string, StorageProvider> = new Map([
-  ['@nimbella/storage-s3', s3StorageProvider],
-  ['@nimbella/storage-gcs', gcsStorageProvider]
+  [s3StorageProvider.identifier, s3StorageProvider],
+  [gcsStorageProvider.identifier, gcsStorageProvider]
 ])
 
 export function getStorageProvider(providerId: string): StorageProvider {
