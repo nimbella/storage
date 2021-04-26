@@ -9,6 +9,7 @@ jobs:
         with:
           node-version: '14'
       - run: npm ci
+      - run: npm run lint
       - run: npm test
       - run: npm pack
       - run: npm run test:built
