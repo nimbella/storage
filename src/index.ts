@@ -30,3 +30,5 @@ export function getStorageProvider(providerId: string): StorageProvider {
 
   return provider
 }
+
+export * from './providers/interface'
