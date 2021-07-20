@@ -115,14 +115,14 @@ class S3RemoteFile implements RemoteFile {
     let cmd
     const ACL = this.web ? 'public-read' : undefined
     switch (action) {
-    case 'read':
-      cmd = new GetObjectCommand({ Bucket: this.bucketName, Key: this.name })
-      break
-    case 'write':
-      cmd = new PutObjectCommand({ Bucket: this.bucketName, Key: this.name, ContentType, ACL })
-      break
-    case 'delete':
-      cmd = new DeleteObjectCommand({ Bucket: this.bucketName, Key: this.name })
+      case 'read':
+        cmd = new GetObjectCommand({ Bucket: this.bucketName, Key: this.name })
+        break
+      case 'write':
+        cmd = new PutObjectCommand({ Bucket: this.bucketName, Key: this.name, ContentType, ACL })
+        break
+      case 'delete':
+        cmd = new DeleteObjectCommand({ Bucket: this.bucketName, Key: this.name })
     }
     if (!cmd) {
       throw new Error('The action for a signed URL must be one of \'read\' | \'write\' | \'delete\'')
@@ -140,7 +140,7 @@ class S3RemoteFile implements RemoteFile {
 }
 
 function pipe(input: Readable, output: Writable): Promise<unknown> {
-  const toWait = new Promise(function(resolve) {
+  const toWait = new Promise(function (resolve) {
     output.on('close', () => {
       resolve(true)
     })
@@ -230,7 +230,7 @@ class NimS3Client implements StorageClient {
 // Typeguard function to ensure we ignore any file objects without keys
 // This won't happen when we are calling the service - but type definition
 // for this field is optional.
-function fileNames(keys: (string|undefined)[] = []): string[] {
+function fileNames(keys: (string | undefined)[] = []): string[] {
   return keys.filter((obj): obj is string => !!obj)
 }
 
@@ -244,7 +244,7 @@ function fileNames(keys: (string|undefined)[] = []): string[] {
 // but we can't use further randomness here since determinism is required.
 function computeBucketStorageName(apiHost: string, namespace: string, web: boolean): string {
   const apiHostName = new URL(apiHost).hostname
-  const deployment = apiHostName.replace(/\./g,"-")
+  const deployment = apiHostName.replace(/\./g, "-")
   debug('calculated deployment %s from apihost %s', deployment, apiHost)
   const bucketName = `${namespace}-${deployment}`
   return web ? bucketName : `data-${bucketName}`

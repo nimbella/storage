@@ -17,11 +17,11 @@ describe('test getClient method', () => {
   test('should return client for web bucket', () => {
     const web = true
     const client = provider.getClient(namespace, apiHost, web, { endpoint }) as NimS3Client
-    expect(client.getBucketName()).toEqual(`${namespace}-api-nimbella-io`)
+    expect(client.getBucketName()).toEqual(`${namespace}-api-nimbella-com`)
   })
   test('should return client for non-web bucket', () => {
     const web = false
     const client = provider.getClient(namespace, apiHost, web, { endpoint }) as NimS3Client
-    expect(client.getBucketName()).toEqual(`data-${namespace}-api-nimbella-io`)
+    expect(client.getBucketName()).toEqual(`data-${namespace}-api-nimbella-com`)
   })
 })
