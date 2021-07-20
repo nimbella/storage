@@ -25,7 +25,6 @@ import { Readable, Writable } from 'stream'
 import { createWriteStream, createReadStream } from 'fs'
 import { WritableStream } from 'memory-streams'
 import makeDebug from 'debug'
-import { hostname } from 'node:os'
 const debug = makeDebug('nim:storage-s3')
 
 class S3RemoteFile implements RemoteFile {
