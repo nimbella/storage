@@ -25,6 +25,7 @@ import { Readable, Writable } from 'stream'
 import { createWriteStream, createReadStream } from 'fs'
 import { WritableStream } from 'memory-streams'
 import makeDebug from 'debug'
+import { hostname } from 'node:os'
 const debug = makeDebug('nim:storage-s3')
 
 class S3RemoteFile implements RemoteFile {
@@ -237,16 +238,16 @@ function fileNames(keys: (string|undefined)[] = []): string[] {
 // Compute the actual name of a bucket, minus the s3:// prefix.
 // Bucket names must be globally unique, which is hard to achieve
 // while at the same time being able to calculate the name deterministically from
-// namespace and API host.  We append `-nimbella-io` as a weak reservation of a
-// block of names.  We extract the deployment name from the API host to disambiguate
+// namespace and API host. We extract the deployment name from the API host to disambiguate
 // nimbella deployments.  Then we rely on the fact that namespace names are unique
 // within a deployment.  Global collisions are further avoided by the practice
 // (not followed 100% of the time) of including random characters in namespace names,
 // but we can't use further randomness here since determinism is required.
 function computeBucketStorageName(apiHost: string, namespace: string, web: boolean): string {
-  const deployment = apiHost.replace('https://', '').split('.')[0]
+  const apiHostName = new URL(apiHost).hostname
+  const deployment = apiHostName.replace(/\./g,"-")
   debug('calculated deployment %s from apihost %s', deployment, apiHost)
-  const bucketName = `${namespace}-${deployment}-nimbella-io`
+  const bucketName = `${namespace}-${deployment}`
   return web ? bucketName : `data-${bucketName}`
 }
 
