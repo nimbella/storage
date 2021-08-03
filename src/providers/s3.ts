@@ -27,7 +27,7 @@ import { WritableStream } from 'memory-streams'
 import makeDebug from 'debug'
 const debug = makeDebug('nim:storage-s3')
 
-class S3RemoteFile implements RemoteFile {
+export class S3RemoteFile implements RemoteFile {
   private s3: S3Client
   private bucketName: string
   private web: boolean
@@ -79,7 +79,15 @@ class S3RemoteFile implements RemoteFile {
 
   async exists(): Promise<boolean> {
     debug('exists was called for file %s', this.name)
-    return !!await this.getMetadata()
+    try {
+      await this.getMetadata()
+    } catch (err) {
+      if (err?.$metadata?.httpStatusCode === 404) {
+        return false
+      }
+      throw err
+    }
+    return true
   }
 
   delete(): Promise<any> {
