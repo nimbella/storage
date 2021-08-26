@@ -120,7 +120,7 @@ const provider: StorageProvider = {
     return { credentials: { client_email, private_key }, project_id, provider: '@nimbella/storage-gcs' }
   },
   getClient: (namespace: string, apiHost: string, web: boolean, credentials: Record<string, any>) => {
-    Object.assign(credentials, { ['projectId']: credentials['project_id'] })
+    Object.assign(credentials, { projectId: credentials.project_id })
     const storage: Storage = new Storage(credentials)
     const bucketName = computeBucketStorageName(apiHost, namespace, web)
     const bucket = storage.bucket(bucketName)
