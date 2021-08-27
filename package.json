@@ -1,6 +1,6 @@
 {
   "name": "@nimbella/storage",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "description": "Nimbella Platform Storage providers implementations and interfaces types.",
   "main": "lib/index.js",
   "repository": {
