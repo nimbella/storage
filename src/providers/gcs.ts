@@ -16,6 +16,7 @@ import {
   SaveOptions, SignedUrlOptions, UploadOptions, StorageKey, FileMetadata, WebsiteOptions, SettableFileMetadata
 } from './interface'
 import { Storage, Bucket, File, GetSignedUrlConfig } from '@google-cloud/storage'
+import { isWeb, getBucketFromCredentials } from './common'
 
 class GCSRemoteFile implements RemoteFile {
    private file: File
@@ -119,10 +120,11 @@ const provider: StorageProvider = {
     const { client_email, private_key, project_id } = original
     return { credentials: { client_email, private_key }, project_id, provider: '@nimbella/storage-gcs' }
   },
-  getClient: (namespace: string, apiHost: string, web: boolean, credentials: Record<string, any>) => {
+  getClient: (namespace: string, apiHost: string, type: boolean|string, credentials: Record<string, any>) => {
     Object.assign(credentials, { projectId: credentials.project_id })
     const storage: Storage = new Storage(credentials)
-    const bucketName = computeBucketStorageName(apiHost, namespace, web)
+    const web = isWeb(type)
+    const bucketName = getBucketFromCredentials(type, credentials) || computeBucketStorageName(apiHost, namespace, web)
     const bucket = storage.bucket(bucketName)
 
     if (web) {

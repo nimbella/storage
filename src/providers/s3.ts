@@ -24,6 +24,7 @@ import { getSignedUrl } from '@aws-sdk/s3-request-presigner'
 import { Readable, Writable } from 'stream'
 import { createWriteStream, createReadStream } from 'fs'
 import { WritableStream } from 'memory-streams'
+import { isWeb, getBucketFromCredentials } from './common'
 import makeDebug from 'debug'
 const debug = makeDebug('nim:storage-s3')
 
@@ -280,11 +281,12 @@ const provider: StorageProvider = {
     debug('preparing credentials: %O', original)
     return original as StorageKey
   },
-  getClient: (namespace: string, apiHost: string, web: boolean, credentials: Record<string, any>) => {
+  getClient: (namespace: string, apiHost: string, type: boolean|string, credentials: Record<string, any>) => {
     debug('making S3Client with credentials %O', credentials)
     const s3 = new S3Client(credentials)
     debug('have client: %O', s3)
-    const bucketName = computeBucketStorageName(apiHost, namespace, web)
+    const web = isWeb(type)
+    const bucketName = getBucketFromCredentials(type, credentials) || computeBucketStorageName(apiHost, namespace, web)
     if (web) {
       const url: string = credentials.weburl || computeBucketUrl(credentials.endpoint, bucketName)
       return new NimS3Client(s3, bucketName, url)

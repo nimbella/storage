@@ -15,6 +15,7 @@
 // semantics.  The rest is at the convenience of the provider.
 export type StorageKey = {
         provider?: string // Assume '@nimbella/storage-gcs' if omitted
+        buckets?: Map<string, string> // Assume empty if omitted
     } & {
         [prop: string]: any
     }
@@ -119,7 +120,7 @@ export interface StorageClient {
 // The top-level signature of a storage provider
 export interface StorageProvider {
     // Provide the appropriate client handle for accessing a type file store (web or data) in a particular namespace
-    getClient: (namespace: string, apiHost: string, web: boolean, credentials: StorageKey) => StorageClient
+    getClient: (namespace: string, apiHost: string, type: boolean|string, credentials: StorageKey) => StorageClient
     // Convert an object containing credentials as stored in couchdb into the proper form for the credential store
     // Except for GCS, which is grandfathered as the default, the result must include a 'provider' field denoting
     // a valid npm-installable package
