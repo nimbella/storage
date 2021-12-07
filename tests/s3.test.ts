@@ -15,9 +15,7 @@ describe('test getClient method', () => {
   const apiHost = 'https://api.nimbella.com'
   const namespace = 'my_namespace'
   const endpoint = 'https://region.s3.aws.com'
-  const buckets = new Map()
-  const expectedBucketName = 'someBucketName'
-  buckets.set('build', expectedBucketName)
+  const buckets = { build: 'some-bucket-name' }
 
   test('should return client for web bucket', () => {
     const web = true
@@ -32,7 +30,7 @@ describe('test getClient method', () => {
   test('should return client for named bucket', () => {
     const type = 'build'
     const client = provider.getClient(namespace, apiHost, type, { endpoint, buckets }) as NimS3Client
-    expect(client.getBucketName()).toEqual(expectedBucketName)
+    expect(client.getBucketName()).toEqual('some-bucket-name')
   })
 })
 
