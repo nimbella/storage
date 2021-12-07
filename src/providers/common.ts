@@ -26,5 +26,5 @@ export function getBucketFromCredentials(type: string|boolean, credentials: Stor
     return undefined
   }
   const key = type === true ? 'web' : type === false ? 'data' : type as string
-  return buckets.get(key)
+  return buckets[key]
 }

@@ -15,7 +15,7 @@
 // semantics.  The rest is at the convenience of the provider.
 export type StorageKey = {
         provider?: string // Assume '@nimbella/storage-gcs' if omitted
-        buckets?: Map<string, string> // Assume empty if omitted
+        buckets?: Record<string, string> // Assume empty if omitted
     } & {
         [prop: string]: any
     }
