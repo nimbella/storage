@@ -239,23 +239,23 @@ class NimS3Client implements StorageClient {
 // Typeguard function to ensure we ignore any file objects without keys
 // This won't happen when we are calling the service - but type definition
 // for this field is optional.
-function fileNames(keys: (string|undefined)[] = []): string[] {
+function fileNames(keys: (string | undefined)[] = []): string[] {
   return keys.filter((obj): obj is string => !!obj)
 }
 
 // Compute the actual name of a bucket, minus the s3:// prefix.
 // Bucket names must be globally unique, which is hard to achieve
 // while at the same time being able to calculate the name deterministically from
-// namespace and API host.  We append `-nimbella-io` as a weak reservation of a
-// block of names.  We extract the deployment name from the API host to disambiguate
+// namespace and API host. We extract the deployment name from the API host to disambiguate
 // nimbella deployments.  Then we rely on the fact that namespace names are unique
 // within a deployment.  Global collisions are further avoided by the practice
 // (not followed 100% of the time) of including random characters in namespace names,
 // but we can't use further randomness here since determinism is required.
 function computeBucketStorageName(apiHost: string, namespace: string, web: boolean): string {
-  const deployment = apiHost.replace('https://', '').split('.')[0]
+  const apiHostName = new URL(apiHost).hostname
+  const deployment = apiHostName.replace(/\./g, '-')
   debug('calculated deployment %s from apihost %s', deployment, apiHost)
-  const bucketName = `${namespace}-${deployment}-nimbella-io`
+  const bucketName = `${namespace}-${deployment}`
   return web ? bucketName : `data-${bucketName}`
 }
 
